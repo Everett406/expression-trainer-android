@@ -54,6 +54,7 @@ git push origin v1.0.0
 
 ## 版本历史
 
+- v1.0.1 - 修复 Kotlin 2.0 Compose Compiler 插件配置
 - v1.0.0 - 初始版本，从 Capacitor 版迁移到原生 Android
 
 ## License
