@@ -12,7 +12,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -102,19 +106,33 @@ fun SettingsScreen(
             )
 
             val providers = listOf("deepseek" to "DeepSeek", "openai" to "OpenAI", "ollama" to "Ollama", "custom" to "自定义")
-            androidx.compose.material3.SingleChoiceSegmentedButtonRow(
-                modifier = Modifier.fillMaxWidth()
+            var expanded by remember { mutableStateOf(false) }
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = { expanded = !expanded }
             ) {
-                providers.forEachIndexed { index, (key, label) ->
-                    androidx.compose.material3.SegmentedButton(
-                        shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = providers.size
-                        ),
-                        onClick = { aiProvider = key },
-                        selected = aiProvider == key
-                    ) {
-                        Text(label)
+                OutlinedTextField(
+                    value = providers.first { it.first == aiProvider }.second,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("AI 后端") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .menuAnchor()
+                )
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    providers.forEach { (key, label) ->
+                        DropdownMenuItem(
+                            text = { Text(label) },
+                            onClick = {
+                                aiProvider = key
+                                expanded = false
+                            }
+                        )
                     }
                 }
             }

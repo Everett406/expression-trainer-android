@@ -11,7 +11,6 @@ import com.sisi.expressiontrainer.data.model.Settings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "expression_trainer")
 
 class SettingsDataStore(private val context: Context) {
@@ -32,13 +31,13 @@ class SettingsDataStore(private val context: Context) {
 
     suspend fun saveSettings(settings: Settings) {
         context.dataStore.edit { prefs ->
-            prefs[SETTINGS_KEY] = json.encodeToString(settings)
+            prefs[SETTINGS_KEY] = json.encodeToString(Settings.serializer(), settings)
         }
     }
 
     suspend fun saveCustomPrompt(customPrompt: CustomPrompt) {
         context.dataStore.edit { prefs ->
-            prefs[CUSTOM_PROMPT_KEY] = json.encodeToString(customPrompt)
+            prefs[CUSTOM_PROMPT_KEY] = json.encodeToString(CustomPrompt.serializer(), customPrompt)
         }
     }
 }
