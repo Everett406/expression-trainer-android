@@ -37,12 +37,15 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease --no-daemon
+        run: ./gradlew assembleRelease --no-daemon -PKEYSTORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}" -PKEY_ALIAS="${{ secrets.KEY_ALIAS }}" -PKEY_PASSWORD="${{ secrets.KEY_PASSWORD }}" --info
 
       - name: Rename APK
         run: |
           TAG=${GITHUB_REF#refs/tags/}
+          echo "APK files:"
+          ls -la app/build/outputs/apk/release/
           APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          echo "Selected: $APK_PATH"
           cp "$APK_PATH" "expression-trainer-${TAG}.apk"
 
       - name: Create Release
