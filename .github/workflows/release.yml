@@ -48,6 +48,12 @@ jobs:
           echo "Selected: $APK_PATH"
           cp "$APK_PATH" "expression-trainer-${TAG}.apk"
 
+      - name: Verify APK signature
+        run: |
+          APK_PATH=$(ls expression-trainer-*.apk | head -1)
+          echo "Verifying $APK_PATH"
+          $ANDROID_HOME/build-tools/35.0.0/apksigner verify --verbose "$APK_PATH"
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:

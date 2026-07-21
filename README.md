@@ -31,7 +31,7 @@
 ### 安装
 
 ```bash
-./gradlew assembleDebug
+./gradlew assembleRelease
 ```
 
 ### GitHub Actions 自动构建
@@ -39,8 +39,8 @@
 推送 `v*` 格式的 tag 即可触发自动构建：
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.6
+git push origin v1.0.6
 ```
 
 构建完成后会在 GitHub Releases 页面生成 APK 下载。
@@ -54,6 +54,11 @@ git push origin v1.0.0
 
 ## 版本历史
 
+- v1.0.6 - 修复 APK 签名：同时启用 V1 + V2 签名，提升安装兼容性；CI 增加 apksigner 验证
+- v1.0.5 - 修复 release 签名配置注入
+- v1.0.4 - 替换 Settings 中不兼容的 ExposedDropdownMenu 为 RadioButton
+- v1.0.3 - 修复 Kotlin 编译错误
+- v1.0.2 - 添加 JitPack 仓库以解析 compose-markdown
 - v1.0.1 - 修复 Kotlin 2.0 Compose Compiler 插件配置
 - v1.0.0 - 初始版本，从 Capacitor 版迁移到原生 Android
 
